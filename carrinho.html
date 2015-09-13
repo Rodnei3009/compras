@@ -136,7 +136,7 @@
                                             <li ng-repeat="produto in produtos | filter:data.singleSelect">
                                                 <label>
                                                     
-                                                    <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.status)" class="cbr" />
+                                                    <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.descricao, produto.categoria, produto.status)" class="cbr" />
                                                     
                                                     <!--<i class="fa fa-trash-o" ng-click="removeItem(produto.ID)"></i> -->
                                                     <span ng-cloak>{{produto.descricao}}</span>
@@ -188,8 +188,8 @@
 					$scope.$apply();				
 				});
 				
-				$scope.inserirLista = function(produto, statusItem) {                    
-                    //alert(produto + statusItem);
+				$scope.inserirLista = function(prodID, prodDesc, prodCateg, statusItem) {                    
+                    alert(prodID + prodDesc + prodCateg + statusItem);
                     $scope.myData = new Firebase("https://listadecompras.firebaseio.com/produtos/" + produto);
                     $scope.myData.child('status').set(statusItem);
                 };
