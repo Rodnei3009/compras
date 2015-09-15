@@ -185,11 +185,11 @@
             
             myApp.controller('minhalistaCTRL', ['$scope', function($scope) {
                 $scope.descricao="";
-                //$scope.items=[];
+                $scope.items=[];
                 $scope.itemslista=[];
-                //$scope.totalitems;
-                //$scope.totalselecionados;
-                $scope.percentualconcluido=0;
+                $scope.totalitems;
+                $scope.totalselecionados;
+                $scope.percentualconcluido;
 				$scope.myValue = true;
 				$scope.myTitle = "Iniciar Compras";
 				$scope.inicio = "";
@@ -197,78 +197,65 @@
 				$scope.elapsed = "";
                 $scope.totalitems = 0;
                 $scope.totalselecionados = 0;
+				
+				
+                $scope.myData = new Firebase("https://listadecompras.firebaseio.com/produtos");
+                $scope.myData.orderByChild("status").equalTo(true).on('value', function(snapshot){
+                    
+                    $scope.items = [];
+                    
+                    var statusitem = "";
+                    
+                    snapshot.forEach(function(childSnapshot) {
+                                            
+                        $scope.items.push({'ID': childSnapshot.key(), 'descricao': childSnapshot.child('descricao').val(), 'categoria': childSnapshot.child('categoria').val(), 'status': childSnapshot.child('status').val()});
+                    });
+                    $scope.$apply();
+                });
     
                 $scope.mudaStatus = function(produto, statusItem) {
                     //alert($scope.inicio + " " + produto  + " " + statusItem);                    
                     $scope.myList = new Firebase("https://listadecompras.firebaseio.com/minhalista/" + $scope.inicio + "/"  + produto);
                     $scope.myList.child('status').set(statusItem);
-                    
-                    if (statusItem === true) {
-                        $scope.totalselecionados = $scope.totalselecionados + 1;
-                    } else {
-                        if ($scope.totalselecionados > 0) {
-                            $scope.totalselecionados = $scope.totalselecionados - 1;
-                        }
-                    }
-                    
-                    if ($scope.totalselecionados > 0) {
-                        $scope.percentualconcluido = $scope.totalselecionados/$scope.totalitems*100;
-                    } else {
-                        $scope.percentualconcluido = 0;
-                    }
+                    alert($scope.itemslista.length);
                 };
 
 				$scope.InicioFim = function() {                    
                     
-                    alert($scope.myValue);   
-                    
-					if ($scope.myValue === true) {
+					if (myValue=true) {
                         $scope.myValue = false;
 						$scope.myTitle = "Finalizar Compras";
 						
 						$scope.inicio = moment().format('DD_MM_YYYY_hh_mm_ss');
 						
 						alert($scope.inicio);
+						alert($scope.items.length);
+						
+                        $scope.novaLista = new Firebase("https://listadecompras.firebaseio.com/minhalista");
                         
-                        $scope.myData = new Firebase("https://listadecompras.firebaseio.com/produtos");
-                        $scope.myData.orderByChild("status").equalTo(true).on('value', function(snapshot){
-                        
-                            $scope.totalitems = snapshot.numChildren();    
-                            
-                            $scope.novaLista = new Firebase("https://listadecompras.firebaseio.com/minhalista");
+                        for (i = 0; i < $scope.items.length; i++) {
+                            var prod = $scope.novaLista.child($scope.inicio);
+                            prod.push({
                                 
-                            snapshot.forEach(function(childSnapshot) {
-                                //alert(childSnapshot.name());        
-                                
-                                var prod = $scope.novaLista.child($scope.inicio);
-                                prod.push({
-                                    descricao: childSnapshot.child('descricao').val(),
-                                    categoria: childSnapshot.child('categoria').val(),
-                                    status: false,
-                                    quant: 0,
-                                    preco: 0
-                                });
+                                descricao: $scope.items[i].descricao,
+                                categoria: $scope.items[i].categoria,
+                                status: false,
+                                quant: 0,
+                                preco: 0
                             });
-                                
-                            var dtInicio = $scope.novaLista.child($scope.inicio);
-                            dtInicio.push({'name':'dtInicio', 'value':'01/01/1900'});    
-                                
-                            $scope.$apply();
-                        });
+                        }
                         
                         $scope.novaLista = new Firebase("https://listadecompras.firebaseio.com/minhalista/" + $scope.inicio);
-                        
-                        $scope.novaLista.once('value', function(snapshot){
+                        $scope.novaLista.on('value', function(snapshot){
                             snapshot.forEach(function(childSnapshot) {
                                 //alert(childSnapshot.name());
                                 $scope.itemslista.push({'ID': childSnapshot.key(), 'descricao': childSnapshot.child('descricao').val(), 'categoria': childSnapshot.child('categoria').val(), 'status': childSnapshot.child('status').val()});
-                                //$scope.totalitems = $scope.totalitems+1;
+                                $scope.totalitems = $scope.totalitems+1;
                             });
                             $scope.$apply();
                         });    
-					} else {   
-                        alert('finalizar');
-                    }
+					}
+					
                     
                 };	
                 
