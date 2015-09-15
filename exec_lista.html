@@ -15,12 +15,16 @@
 
         <script src="http://code.angularjs.org/angular-1.0.0rc11.min.js"></script>
         <script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+		
         
         <link href="css/bootstrap-dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="css/ionicons/css/ionicons.min.css" rel="stylesheet" />
         <link href="css/main.css" rel="stylesheet" />
         <script data-main="app/bootstrap" src="libs/requirejs/require.js"></script>
-        <script src="libs/requirejs/jquery-1.11.1.min.js"></script>    
+        <script src="libs/requirejs/jquery-1.11.1.min.js"></script>
+
+        <script src="libs/js/angular-momentjs.js"></script>    
+        <script src="libs/js/moment.js"></script>    		
         
         <title>Lista de compras</title>
             
@@ -120,13 +124,12 @@
                                         <strong class="num">{{percentualconcluido}}%</strong>
                                         <span>% de itens concluídos</span>
                                     </div>
-                                    
-                                    <div ng-controller="AlbumCtrl">
-                                        {{counter | date:'hh:mm:ss'}}
-                                    </div>
-                                    
                                 </div>
-                            
+								
+								<div>
+									<button class="btn btn-purple btn-block btn-primary full-width" type="button" ng-click="InicioFim()">{{myTitle}}</button>
+								</div>
+			
                                 <div class="xe-widget xe-todo-list xe-todo-list-purple">
                                     <div class="xe-header">
                                         <div class="xe-icon">
@@ -142,7 +145,8 @@
                                         <ul class="list-unstyled">
                                             <li ng-repeat="item in items">
                                                 <label>
-                                                    <input type="checkbox" ng-model="item.status" ng-click="mudaStatus(item.ID, item.status)" class="cbr" />
+													<!--<input ng-disabled="myValue" type="checkbox" ng-model="item.status" ng-click="mudaStatus(item.ID, item.status)" class="cbr" />-->
+                                                    <input ng-disabled="myValue" type="checkbox" ng-click="mudaStatus(item.ID, item.status)" class="cbr" />
                                                     <span>{{item.descricao}}</span>
                                                 </label>
                                             </li>
@@ -186,7 +190,13 @@
                 $scope.totalitems;
                 $scope.totalselecionados;
                 $scope.percentualconcluido;
-                            
+				$scope.myValue = true;
+				$scope.myTitle = "Iniciar Compras";
+				$scope.inicio = "";
+				$scope.fim = "";
+				$scope.elapsed = "";
+				
+				
                 $scope.myData = new Firebase("https://listadecompras.firebaseio.com/produtos");
                 $scope.myData.orderByChild("status").equalTo(true).on('value', function(snapshot){
                     
@@ -202,19 +212,16 @@
                         
                         if (childSnapshot.child('status').val() > 0) {
                             $scope.totalselecionados = $scope.totalselecionados+1;
-                            //alert(childSnapshot.child('status').val());
                         }
                     });
                     
                     if ($scope.totalselecionados > 0) {
                         $scope.percentualconcluido = $scope.totalselecionados/$scope.totalitems*100;
-                        //alert($scope.percentualconcluido);
                     } else {
                         $scope.percentualconcluido = 0;
                     }
                     
                     $scope.$apply();
-                    //alert($scope.totalitems);
                 });
     
                 $scope.mudaStatus = function(produto, statusItem) {                    
@@ -222,26 +229,35 @@
                     $scope.myList = new Firebase("https://listadecompras.firebaseio.com/minhalista/" + produto);
                     $scope.myList.child('status').set(statusItem);
                     
-                };		
+                };
+
+				$scope.InicioFim = function() {                    
+                    
+					if (myValue=true) {
+					
+						$scope.myValue = false;
+						$scope.myTitle = "Finalizar Compras";
+						
+						$scope.inicio = moment().format('DD/MMM/YYYY - hh:mm:ss');
+						
+						alert($scope.inicio);
+						alert($scope.items.length);
+						
+						$scope.novaLista = new Firebase("https://listadecompras.firebaseio.com/minhalista/" + $scope.inicio);
+						//$scope.novaLista.set($scope.items);
+						
+						for (i = 0; i < $scope.items.length; i++) { 
+							alert($scope.items[i].descricao);
+							$scope.novaLista.push({'descricao': $scope.items[i].descricao, 'categoria': $scope.items[i].categoria, 'status': false});
+						}
+
+					}
+					
+                    
+                };	
                 
             }]);	
-            
-            function AlbumCtrl($scope,$timeout) {
-                $scope.counter = 0;
-                $scope.onTimeout = function(){
-                    $scope.counter++;
-                    mytimeout = $timeout($scope.onTimeout,1000);
-                }
-                var mytimeout = $timeout($scope.onTimeout,1000);
-                
-                $scope.stop = function(){
-                    $timeout.cancel(mytimeout);
-                }
-                        
-            }
 
-
-            
         </script>
         
         <!-- Bottom Scripts -->

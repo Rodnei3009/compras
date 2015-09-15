@@ -18,7 +18,7 @@
         <link href="css/ionicons/css/ionicons.min.css" rel="stylesheet" />
         <link href="css/main.css" rel="stylesheet" />
         <script data-main="app/bootstrap" src="libs/requirejs/require.js"></script>
-        <script src="libs/requirejs/jquery-1.11.1.min.js"></script>    
+        <script src="libs/requirejs/jquery-1.11.1.min.js"></script>
         
         <title>Lista de compras</title>
             
@@ -251,8 +251,6 @@
         <script>			
             var myApp = angular.module('myApp',[]);
     
-            
-            app.controller("ProfileCtrl", ["$firebaseArray", function($firebaseArray) {
             myApp.controller('produtosCTRL', ['$scope', function($scope) {
                 $scope.descricao="";
                 $scope.produtos={};
