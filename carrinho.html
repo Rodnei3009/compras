@@ -189,8 +189,8 @@
 				});
 				
 				$scope.inserirLista = function(prodID, prodDesc, prodCateg, statusItem) {                    
-                    alert(prodID + prodDesc + prodCateg + statusItem);
-                    $scope.myData = new Firebase("https://listadecompras.firebaseio.com/produtos/" + produto);
+                    //alert(prodID + prodDesc + prodCateg + statusItem);
+                    $scope.myData = new Firebase("https://listadecompras.firebaseio.com/produtos/" + prodID);
                     $scope.myData.child('status').set(statusItem);
                 };
 

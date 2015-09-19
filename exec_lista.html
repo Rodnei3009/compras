@@ -121,21 +121,14 @@
                                         <i class="linecons-pencil"></i>
                                     </div>
                                     <div class="xe-label">
-                                        <strong class="num">{{percentualconcluido}}%</strong>
+                                        <strong class="num">{{percentualconcluido | number:0}}%</strong>
                                         <span>% de itens concluídos</span>
                                     </div>
                                 </div>
 								
 								<div>
 									<button class="btn btn-purple btn-block btn-primary full-width" type="button" ng-click="InicioFim()">{{myTitle}}</button>
-                                    <button class="btn btn-purple btn-block btn-primary full-width" type="button" data-toggle="modal" data-target="#modal-1" data-inicio="inicio" ng-click="ClickFinalizar()">Finalizar ...</button>
-                                    
-                                    <button id="modal-1">open modal</button>
-                                    
-                                    <!-- Button trigger modal -->
-                                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" data-inicio="blzbla">Launch demo modal</button>
-                                    <a href="#my_modal" data-toggle="modal" data-book-id="teste">Open Modal</a>
-                                    
+									<button class="btn btn-purple btn-block btn-primary full-width" type="button" data-toggle="modal" data-inicio={{inicio}} data-target="#modal-1">Finalizar ...</button>
 								</div>
 			
                                 <div class="xe-widget xe-todo-list xe-todo-list-purple">
@@ -169,11 +162,7 @@
                                     </div>
                                 </div>
                                 
-                                <!--
-                                <td>
-                                    <a href="javascript:;" onclick="jQuery('#modal-1').modal('show', {backdrop: 'fade'});" class="btn btn-primary btn-single btn-sm">Show Me</a>
-                                </td>
-                                -->
+                                
                             </div>
                         </div>
                         
@@ -188,24 +177,6 @@
             </div>
         </div>
         
-        <div class="modal" id="my_modal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h4 class="modal-title">Modal header</h4>
-              </div>
-              <div class="modal-body">
-                <p>some content</p>
-                <input type="text" name="bookId" value=""/>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        
         <script>
 
             var myApp = angular.module('myApp',[]);
@@ -216,23 +187,15 @@
             
             myApp.controller('minhalistaCTRL', ['$scope', function($scope) {
                 $scope.descricao="";
-                //$scope.items=[];
                 $scope.itemslista=[];
-                //$scope.totalitems;
-                //$scope.totalselecionados;
                 $scope.percentualconcluido=0;
 				$scope.myValue = true;
+				$scope.inicio = "";
 				$scope.myTitle = "Iniciar Compras";
 				$scope.inicio = "";
 				$scope.fim = "";
 				$scope.totalitems = 0;
                 $scope.totalselecionados = 0;
-    
-                $('#my_modal').on('show.bs.modal', function(e) {
-                    alert($scope.nomeLista);
-                    var bookId = $(e.relatedTarget).data('book-id');
-                    $(e.currentTarget).find('input[name="bookId"]').val(bookId);
-                });
                 
                 $scope.mudaStatus = function(produto, statusItem) {
                     //alert($scope.inicio + " " + produto  + " " + statusItem);                    
@@ -292,12 +255,10 @@
                         });
                            
                         $scope.novaLista = new Firebase("https://listadecompras.firebaseio.com/minhalista/" + $scope.inicio);
-                        
+
                         $scope.novaLista.once('value', function(snapshot){
                             snapshot.forEach(function(childSnapshot) {
-                                //alert(childSnapshot.name());
                                 $scope.itemslista.push({'ID': childSnapshot.key(), 'descricao': childSnapshot.child('descricao').val(), 'categoria': childSnapshot.child('categoria').val(), 'status': childSnapshot.child('status').val()});
-                                //$scope.totalitems = $scope.totalitems+1;
                             });
                             $scope.$apply();
                         });    
@@ -310,11 +271,6 @@
                         guardaFim = moment().format('DD/MM/YYYY hh:mm:ss');
                         
                         $scope.myValue = true;
-                        
-                        //$("#nomeLista").val($scope.inicio);
-                        //$('#modal-1').modal('show', {backdrop: 'fade'});
-                        
-                        //location.reload();
 
                     }
                     
@@ -323,22 +279,31 @@
             }]);
             
             myApp.controller('finalizarCTRL', ['$scope', function($scope) {
+
+				$('#modal-1').on('show.bs.modal', function(e) {
+                    
+                    var dtInicio = $(e.relatedTarget).data('inicio');
+                    //$(e.currentTarget).find('input[name="dtInicial"]').val(dtInicio);
+										
+					$scope.itemsFim=[];
                 
-                $scope.itemsFim=[];
-                
-                $scope.listaFim = new Firebase("https://listadecompras.firebaseio.com/minhalista/16_09_2015_12_16_15");
-                        
-                $scope.listaFim.once('value', function(snapshot){
-                    snapshot.forEach(function(childSnapshot) {
-                        $scope.itemsFim.push({'descricao': childSnapshot.child('descricao').val(), 'categoria': childSnapshot.child('categoria').val()});
-                    });
-                    $scope.$apply();
+					$scope.listaFim = new Firebase("https://listadecompras.firebaseio.com/minhalista/" + dtInicio);
+					$scope.listaFim.once('value', function(snapshot){
+						snapshot.forEach(function(childSnapshot) {
+							$scope.itemsFim.push({'descricao': childSnapshot.child('descricao').val(), 
+  												  'categoria': childSnapshot.child('categoria').val(),
+												  'status': childSnapshot.child('status').val()});
+						});
+						$scope.$apply();
+					});
+					
+					
+					$scope.Finalizar = function() {
+						location.reload();
+					}
+					
                 });
-                
-                
-                $scope.Finalizar = function() {
-                    location.reload();
-                }    
+				    
             }]);    
             
 
@@ -367,6 +332,24 @@
         <!-- JavaScripts initializations and stuff -->
         <script src="libs/js/xenon-custom.js"></script>
     
+		<div class="modal" id="my_modal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h4 class="modal-title">Modal header</h4>
+              </div>
+              <div class="modal-body">
+                <p>some content</p>
+                <input type="text" name="bookId" value=""/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+	
         <div class="modal fade" id="modal-1" ng-controller="finalizarCTRL">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -390,12 +373,16 @@
                                 <strong>Itens Selecionados</strong>
                             </div>
                         </div>
-                        <div class="xe-body">
+                        <div class="xe-body" name="dtInicio">
                             
                             <ul class="list-unstyled">
-                                <li ng-repeat="item in itemsFim">
-                                    <label>
+                                <li ng-repeat="item in itemsFim" ng-switch on="item.status">
+                                    <label ng-switch-when="true">
                                         <i class="fa fa-check-square-o fa-fw"></i>
+                                        <span>{{item.descricao}}</span>
+                                    </label>
+									<label ng-switch-when="false">
+                                        <i class="fa fa-times fa-fw"></i>
                                         <span>{{item.descricao}}</span>
                                     </label>
                                 </li>
@@ -407,12 +394,15 @@
                             </div>
                         </div>
                         <div>
-                            <strong>Total de itens: total</strong>
+                            <!--<strong>Total de itens: total</strong>-->
                         </div>
                     </div>
                     
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-white" data-dismiss="modal" ng-click="Finalizar()">Finalizar</button>
+						<button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-info" ng-click="Finalizar()">Finalizar</button>
+					
+                        <!--<button type="button" class="btn btn-white" data-dismiss="modal" ng-click="Finalizar()">Finalizar</button>-->
                         <!--<button type="button" class="btn btn-info">Confirmar</button>-->
                     </div>
                     
