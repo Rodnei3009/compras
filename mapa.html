@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Geo Location Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    
+    <script src="libs/js/event.js"></script>
+    <script src="libs/js/ui-map.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <style type="text/css">
+        .map {
+            height: 400px;
+            width: 100%;
+        }
+        .main {
+            margin-top: 30px;
+        }
+    </style>
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1734981-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body ng-app="geo">
+    <div class="container main" ng-controller="mainController">
+        <form>
+            <div class="row">
+                <div id="map_canvas" ui-map="model.myMap" class="map" ui-options="mapOptions">
+                </div>
+                <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]">
+                </div>
+            </div>
+            <div class="row" ng-show="showResult()">
+               Latitude: {{lat}} <br />
+               Longitude: {{lng}} <br />
+               Accuracy: {{accuracy}}
+            </div>
+            <div class="row" ng-show="!showResult()">
+                Error : {{error}}
+                Error Code: {{error.code}}
+            </div>  
+			<div class="row">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- blog long ad -->
+				<ins class="adsbygoogle"
+					 style="display:inline-block;width:970px;height:90px"
+					 data-ad-client="ca-pub-7083014272399199"
+					 data-ad-slot="8676799210"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>			
+			</div>			
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    var app = angular.module("geo", ["ui.map", "ui.event"])
+    .controller("mainController", function ($scope) {
+        $scope.lat = "0";
+        $scope.lng = "0";
+        $scope.accuracy = "0";
+        $scope.error = "";
+        $scope.model = { myMap: undefined };
+        $scope.myMarkers = [];
+
+        $scope.showResult = function () {
+            return $scope.error == "";
+        }
+
+        $scope.mapOptions = {
+            center: new google.maps.LatLng($scope.lat, $scope.lng),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        $scope.showPosition = function (position) {
+            $scope.lat = position.coords.latitude;
+            $scope.lng = position.coords.longitude;
+            $scope.accuracy = position.coords.accuracy;
+            $scope.$apply();
+
+            var latlng = new google.maps.LatLng($scope.lat, $scope.lng);
+            $scope.model.myMap.setCenter(latlng);
+            $scope.myMarkers.push(new google.maps.Marker({ map: $scope.model.myMap, position: latlng }));
+        }
+
+        $scope.showError = function (error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    $scope.error = "User denied the request for Geolocation."
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    $scope.error = "Location information is unavailable."
+                    break;
+                case error.TIMEOUT:
+                    $scope.error = "The request to get user location timed out."
+                    break;
+                case error.UNKNOWN_ERROR:
+                    $scope.error = "An unknown error occurred."
+                    break;
+            }
+            $scope.$apply();
+        }
+
+        $scope.getLocation = function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition($scope.showPosition, $scope.showError);
+            }
+            else {
+                $scope.error = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        $scope.getLocation();
+    });
+
+</script>
+</html>
