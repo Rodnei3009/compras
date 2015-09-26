@@ -55,7 +55,7 @@
 
 				
 
-				<div class="navbar-default sidebar" role="navigation">
+				<div class="navbar-default sidebar navbar-static-top" role="navigation">
 					<div class="sidebar-nav navbar-collapse">
 						<ul class="nav" id="side-menu">
 							
@@ -169,6 +169,20 @@
             </div>
         </div>
         
+        <script>
+            
+            $(document).scroll(function(e){
+                var scrollTop = $(document).scrollTop();
+                if(scrollTop > 0){
+                    console.log(scrollTop);
+                    $('.navbar').removeClass('navbar-static-top').addClass('navbar-fixed-top');
+                } else {
+                    $('.navbar').removeClass('navbar-fixed-top').addClass('navbar-static-top');
+                }
+            });
+            
+        </script>    
+    
         <!-- Bottom Scripts -->
         
         <script src="libs/requirejs/jquery-1.11.1.min.js"></script>

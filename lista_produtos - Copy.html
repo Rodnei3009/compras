@@ -14,10 +14,6 @@
         <meta name="description" content="Xenon Boostrap Admin Panel" />
         <meta name="author" content="" />
 
-        <script src="libs/angular/angular.min.js"></script>
-        <script src="libs/js/spin.min.js"></script>    
-        <script src="libs/js/angular-spinner.js"></script>
-        <script src="libs/js/script.js"></script>
         
         <link href="css/bootstrap-dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="css/ionicons/css/ionicons.min.css" rel="stylesheet" />
@@ -110,18 +106,7 @@
                     <!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
                     <!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
                     
-                    <div class="main-content" ng-controller="produtosCTRL">
-                        
-                        
-                        
-                        <div >
-                          <input type="button" id="btn1" ng-click="startSpin()" value="Start spinner" />
-                          <input type="button" id="btn2" ng-click="stopSpin()" value="Stop spinner" />
-                          <br />Spinner active: {{spinneractive}}<br />Started: {{startcounter}} times<br />
-                          
-                            
-                        </div>
-                        
+                    <div class="main-content">
                         
                         <h3 class="text-gray">
                             Cadastro de produtos <br />
@@ -129,17 +114,13 @@
                         </h3>
                         
                         <!-- Xenon Todo List -->
-                        <div class="row">
+                        <div class="row" ng-controller="produtosCTRL">
 							<div class="col-sm-4">
                                 <div>									
 									<select id="prodCategorias" class="form-control" placeholder="Search Categoria" ng-model="data.singleSelect" ng-options="categoria for categoria in categorias"></select>
 								</div>
 								<hr>
 								
-                                <div class="col-sm-4">
-                                    <span us-spinner="{radius:5, width:4, length: 8}" spinner-key="spinner-1"></span>
-                                </div>
-                                
 								<div class="xe-widget xe-todo-list xe-todo-list-purple">
                                     <div class="xe-header">
                                         <div class="xe-icon">
@@ -269,34 +250,24 @@
         -->
 
         <script>			
-            var myApp = angular.module('myApp',['angularSpinner']);
-            
-            
-            myApp.controller('produtosCTRL', ['$scope', 'usSpinnerService', '$rootScope', function($scope, usSpinnerService, $rootScope) {
+            var myApp = angular.module('myApp',[]);
+    
+            myApp.controller('produtosCTRL', ['$scope', function($scope) {
                 $scope.descricao="";
                 $scope.produtos={};
 				$scope.categorias=[];
                 $scope.myValue=false;
 				$scope.data = {};
                 $scope.data.novoProduto = "";
-                $scope.startcounter = 0;
            	
-                
-				
-                myData = new Firebase("https://listadecompras.firebaseio.com/produtos");
+				myData = new Firebase("https://listadecompras.firebaseio.com/produtos");
 				myData.on('value', function(snapshot){
 					$scope.produtos = [];
-                    
-                    angular.element(document.getElementById('btn1')).scope().startSpin();
-                    
 					snapshot.forEach(function(childSnapshot) {
 						$scope.produtos.push({'ID': childSnapshot.key(), 'descricao': childSnapshot.child('descricao').val(), 'categoria': childSnapshot.child('categoria').val()});
 					});
-					$scope.$apply();
-                    
-                    angular.element(document.getElementById('btn2')).scope().stopSpin();
+					$scope.$apply();				
 				});
-                
 				
 				$scope.removeItem = function removeItem(prod) {
                     alert(prod);
@@ -306,27 +277,6 @@
                     $scope.myValue=false;
                 };
                 
-                $scope.startSpin = function() {
-                  if (!$scope.spinneractive) {
-                    usSpinnerService.spin('spinner-1');
-                    $scope.startcounter++;
-                  }
-                };
-            
-                $scope.stopSpin = function() {
-                  if ($scope.spinneractive) {
-                    usSpinnerService.stop('spinner-1');
-                  }
-                };
-                $scope.spinneractive = false;
-            
-                $rootScope.$on('us-spinner:spin', function(event, key) {
-                  $scope.spinneractive = true;
-                });
-            
-                $rootScope.$on('us-spinner:stop', function(event, key) {
-                  $scope.spinneractive = false;
-                });
                 
 				$scope.saveProdutos = function(desc, categ){
                     //alert($scope.data.novoProduto + " - " + $scope.data.singleSelect);
