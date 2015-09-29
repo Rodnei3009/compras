@@ -98,29 +98,7 @@
         
             <div id="page-wrapper">
                 
-                <div class="col-sm-4" ng-controller="minhalistaCTRL">
-					
-					<div class="xe-widget xe-counter-block xe-counter-block-purple" data-count=".num" data-from="0" data-to="512" data-duration="3" ng-repeat="produto in produtos | filter:data.singleSelect">
-						<div class="xe-upper">
-							
-							
-							<div class="xe-label">
-								<strong class="num">{{produto.descricao}}</strong>
-								<span>{{produto.categoria}}</span>
-							</div>
-							
-						</div>
-						<div class="xe-lower">
-							<div class="border"></div>
-							
-							<span>Increase</span>
-							<strong>512 more photos</strong>
-						</div>
-					</div>
-
-				</div>
-				
-				
+                
                 <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
                         
                     <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
@@ -243,6 +221,12 @@
         
         <!-- JavaScripts initializations and stuff -->
         <script src="libs/js/xenon-custom.js"></script>
+    
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="libs/js/metisMenu.min.js"></script>
+    
+        <!-- Custom Theme JavaScript -->
+        <script src="libs/js/sb-admin-2.js"></script>
     
     </body>
     
