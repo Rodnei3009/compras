@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="myApp">
 <head>
 	
 	<title>Teste</title>
 
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/xenon-components.css">
-
+	
+	<script src="https://cdn.firebase.com/js/client/2.2.3/firebase.js"></script>	
+	
 	<style>
 	
 		.animate-wrap {
 			position: relative;
-			width: 180px; height: 180px;
+			width: 400px; height: 220px;
 			-webkit-perspective: 1000;
 			-moz-perspective: 1000;
 			perspective: 1000;
@@ -39,8 +41,8 @@
 		
 		label {
 			position: absolute; top: 0; left: 0; z-index: 2;
-			
-			background-color: black;			
+			width: 400px; height: 220px;
+			//background-color: black;			
 			
 			-webkit-backface-visibility: hidden;
 			-moz-backface-visibility: hidden;
@@ -62,13 +64,85 @@
 </head>
 <body class="page-body">
 
-	<div class="animate-wrap">  
+	<div class="row">
+		<div class="col-sm-4">
+
+			<div class="xe-widget xe-todo-list xe-todo-list-white">
+				<div class="xe-header">
+					<div class="xe-icon">
+						<i class="fa-file-text-o"></i>
+					</div>
+					<div class="xe-label">
+						<span>Lista</span>
+						<strong>Lista de compras</strong>
+					</div>
+				</div>
+				<div class="xe-body">
+					
+					<ul class="list-unstyled">
+						<li>
+							<div class="animate-wrap">
+				
+								<input type="radio" id="ani-1" name="animation" checked>
+								<input type="radio" id="ani-2" name="animation">
+							
+								<div class="animate">
+									<label for="ani-2" class="front">
+										<div class="xe-widget xe-counter-block xe-counter-block-purple">
+											<div class="xe-upper">
+												
+												<div class="xe-label">
+													<strong class="num">0</strong>
+													<span>Photos Taken</span>
+												</div>
+											</div>
+											<div class="xe-lower">
+												<div class="border"></div>
+												<span>Increase</span>
+												<strong>512 more photos</strong>
+											</div>
+										</div>
+									</label>
+									
+									<label for="ani-1" class="back">
+										<div class="xe-widget xe-counter-block xe-counter-block-purple">
+											<div class="xe-upper">
+												<div class="xe-label">
+													<strong class="num">0</strong>
+													<span>Photos nhaca</span>
+												</div>
+											</div>
+											<div class="xe-lower">
+												<div class="border"></div>
+												<span>Increase</span>
+												<strong>233 more photos</strong>
+											</div>
+										</div>
+									</label>
+									
+								</div>
+							</div>
+						</li>    
+					</ul>
+					
+				</div>
+					<div class="xe-header">
+						<div>
+						</div>
+					</div>
+					<br>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<!--	
+	<div class="animate-wrap">
+	
 		<input type="radio" id="ani-1" name="animation" checked>
 		<input type="radio" id="ani-2" name="animation">
 	
 		<div class="animate">
 			<label for="ani-2" class="front" class="col-sm-4">
-								
 				<div class="xe-widget xe-counter-block xe-counter-block-purple">
 					<div class="xe-upper">
 						
@@ -76,31 +150,25 @@
 							<strong class="num">0</strong>
 							<span>Photos Taken</span>
 						</div>
-						
 					</div>
 					<div class="xe-lower">
 						<div class="border"></div>
-						
 						<span>Increase</span>
 						<strong>512 more photos</strong>
 					</div>
 				</div>
-				
 			</label>
 			
 			<label for="ani-1" class="back" class="col-sm-4">
 				<div class="xe-widget xe-counter-block xe-counter-block-purple">
 					<div class="xe-upper">
-						
 						<div class="xe-label">
 							<strong class="num">0</strong>
 							<span>Photos nhaca</span>
 						</div>
-						
 					</div>
 					<div class="xe-lower">
 						<div class="border"></div>
-						
 						<span>Increase</span>
 						<strong>233 more photos</strong>
 					</div>
@@ -109,7 +177,29 @@
 			
 		</div>
 	</div>	
+	-->
+	
+	<script>
+			/*
+			var myApp = angular.module('myApp',[]);
+    
+            myApp.controller('produtosCTRL', ['$scope', function($scope) {
+                $scope.produtos={};
+           	
+				myData = new Firebase("https://listadecompras.firebaseio.com/produtos");
+				myData.on('value', function(snapshot){
+					$scope.produtos = [];
+					snapshot.forEach(function(childSnapshot) {
+						$scope.produtos.push({'ID': childSnapshot.key(), 'descricao': childSnapshot.child('descricao').val(), 'categoria': childSnapshot.child('categoria').val(), 'status': childSnapshot.child('status').val()});
+					});
+					$scope.$apply();				
+				});
+				
+            }]);
+			*/
 		
+	</script>
+	
 </body>
 
 </html>	
