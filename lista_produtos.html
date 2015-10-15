@@ -134,9 +134,7 @@
 								</div>
 								<hr>
 								
-                                <div class="col-sm-4">
-                                    <span us-spinner="{radius:5, width:4, length: 8}" spinner-key="spinner-1"></span>
-                                </div>
+                                
                                 
 								<div class="xe-widget xe-todo-list xe-todo-list-purple">
                                     <div class="xe-header">
@@ -147,9 +145,14 @@
                                             <span>Lista</span>
                                             <strong>{{ data.singleSelect }}</strong>
                                         </div>
+                                        <div class="col-sm-4">
+                                            <span align="center" us-spinner="{radius:4, width:4, length: 8}" spinner-key="spinner-1"></span>
+                                        </div>
                                     </div>
                                     <div class="xe-body">
-                                        
+                                        <div class="col-sm-4">
+                                            <span align="center" us-spinner="{radius:4, width:4, length: 8}" spinner-key="spinner-1"></span>
+                                        </div>
                                         <ul class="list-unstyled">
                                             <li ng-repeat="produto in produtos | filter:data.singleSelect">
                                                 <label>
