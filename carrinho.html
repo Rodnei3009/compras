@@ -27,11 +27,13 @@
         <link href="css/fonts/linecons/linecons.css" rel="stylesheet">
         <link href="css/fonts/fontawesome/font-awesome.min.css" rel="stylesheet">
         <link href="css/bootstrap.css" rel="stylesheet">
+        
         <link href="css/xenon-core.css" rel="stylesheet">
         <link href="css/xenon-forms.css" rel="stylesheet">
         <link href="css/xenon-components.css" rel="stylesheet">
         <link href="css/xenon-skins.css" rel="stylesheet">
         <link href="css/xenon.css" rel="stylesheet">  
+        
         <link href="css/bootstrap-dist/css/metisMenu.min.css" rel="stylesheet">
         <link href="css/bootstrap-dist/css/sb-admin-2.css" rel="stylesheet">
         <link href="css/fonts/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
@@ -98,29 +100,6 @@
         
             <div id="page-wrapper">
                 
-                <div class="col-sm-4" ng-controller="minhalistaCTRL">
-					
-					<div class="xe-widget xe-counter-block xe-counter-block-purple" data-count=".num" data-from="0" data-to="512" data-duration="3" ng-repeat="produto in produtos | filter:data.singleSelect">
-						<div class="xe-upper">
-							
-							
-							<div class="xe-label">
-								<strong class="num">{{produto.descricao}}</strong>
-								<span>{{produto.categoria}}</span>
-							</div>
-							
-						</div>
-						<div class="xe-lower">
-							<div class="border"></div>
-							
-							<span>Increase</span>
-							<strong>512 more photos</strong>
-						</div>
-					</div>
-
-				</div>
-				
-				
                 <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
                         
                     <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
@@ -130,17 +109,56 @@
                     <div class="main-content">
                         
                         <h3 class="text-gray">
-                            Preparação da lista <br />
+                            <div class="xe-icon">
+                                <i class="fa-file-text-o"></i>
+                                Preparação da lista <br />
+                            </div>
+                            
                             <small class="text-muted">Selecione a categoria</small>
                         </h3>
                         
                         <!-- Xenon Todo List -->
                         <div class="row" ng-controller="minhalistaCTRL">
-							<div class="col-sm-4">
-                                <div>									
-									<select id="prodCategorias" class="form-control" placeholder="Search Categoria" ng-model="data.singleSelect" ng-options="categoria for categoria in categorias"></select>
-								</div>
-								<hr>
+							
+                            <div>									
+                                <select id="prodCategorias" class="form-control" placeholder="Search Categoria" ng-model="data.singleSelect" ng-options="categoria for categoria in categorias"></select>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="xe-widget xe-counter-block xe-counter-block-purple" data-count=".num" data-from="0" data-to="512" data-duration="3" ng-repeat="produto in produtos | filter:data.singleSelect">
+                                <div class="xe-upper">
+                                    
+                                    <div>
+                                        <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.descricao, produto.categoria, produto.status)" class="cbr" />     
+                                    </div>    
+                                    
+                                    <div class="xe-label">
+                                        <strong class="num">{{produto.descricao}}</strong>
+                                        <span>{{produto.categoria}}</span>
+                                    </div>
+                                    
+                                    <div>
+                                        <i class="fa-trash-o" ng-click="removeItem(produto.ID)"></i>
+                                    </div>    
+
+                                </div>
+                                <div class="xe-lower">
+                                    <div class="border"></div>
+
+                                    <span>Increase</span>
+                                    <strong>512 more photos</strong>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            
+                            
+                            
+                            <!--
+                            <div class="col-sm-4">
+                                
 								
 								<div class="xe-widget xe-todo-list xe-todo-list-purple">
                                     <div class="xe-header">
@@ -160,10 +178,11 @@
                                                     
                                                     <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.descricao, produto.categoria, produto.status)" class="cbr" />
                                                     
-                                                    <!--<i class="fa fa-trash-o" ng-click="removeItem(produto.ID)"></i> -->
+                                                    
                                                     <span ng-cloak>{{produto.descricao}}</span>
-
+                                                    
                                                 </label>
+                                                <i class="fa fa-trash-o" ng-click="removeItem(produto.ID)"></i>
                                             </li>    
                                         </ul>
                                         
@@ -173,12 +192,42 @@
                                             </div>
                                         </div>
 
-                                    </div>
                                 </div>
-                                
+                            </div>
+                            -->
+                            
+                            <hr>
+                            
+                            <div class="xe-header">
+                                <div>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <input type="text" ng-model="data.novoProduto" class="form-control no-right-border form-focus-purple">
+
+                                <span class="input-group-btn">
+                                    <button class="btn btn-purple" type="button" ng-click="saveProdutos(txtIncluir, data.singleSelect)">Incluir</button>
+                                </span>
+                            </div>
+
+                            <br>
+
+                            <div>
+                                <form role="form">						
+                                    <div class="bs-example" ng-show="myValue">
+
+                                            <div class="alert alert-warning">
+                                                <strong>Alerta!</strong> Preencha o nome do produto...
+                                            </div>
+
+                                    </div>
+                                </form>
                             </div>
                             
+                                
                         </div>
+                </div>
                         
                         <!-- Main Footer -->
                         <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
@@ -210,7 +259,30 @@
 					$scope.$apply();				
 				});
 				
-				$scope.inserirLista = function(prodID, prodDesc, prodCateg, statusItem) {                    
+				$scope.removeItem = function removeItem(prod) {
+                    //alert(prod);
+                    $scope.deleteitem = new Firebase("https://listadecompras.firebaseio.com/produtos/" + prod);
+                    $scope.deleteitem.remove();
+                    $scope.$apply();
+                    $scope.myValue=false;
+                };
+                
+                $scope.saveProdutos = function(desc, categ){
+                    //alert($scope.data.novoProduto + " - " + $scope.data.singleSelect);
+                    
+                    if ($scope.data.novoProduto == "") {
+                        //alert('sim');
+                        $scope.myValue=true;
+                        return false;
+                    } else {
+                        //alert('nao');
+                        myData.push({descricao:$scope.data.novoProduto, categoria:$scope.data.singleSelect});
+                        $scope.data.novoProduto = "";
+                        $scope.myValue=false;
+                    }
+                };
+                
+                $scope.inserirLista = function(prodID, prodDesc, prodCateg, statusItem) {                    
                     //alert(prodID + prodDesc + prodCateg + statusItem);
                     $scope.myData = new Firebase("https://listadecompras.firebaseio.com/produtos/" + prodID);
                     $scope.myData.child('status').set(statusItem);
