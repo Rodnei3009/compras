@@ -6049,7 +6049,7 @@ label.radio-inline input[type="radio"] {
 }
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
-  margin-top: 2px;
+  margin-top: 1px;
 }
 .input-group .btn {
   margin-bottom: 0;
@@ -12938,6 +12938,37 @@ button.toast-close-button {
 .xe-widget {
   position: relative;
 }
+
+.verso {
+    -webkit-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+    -moz-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+    -o-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+    -ms-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+    transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+    background-color: blue;
+    width: 100%;
+    padding: 10px;
+}
+
+.frente {
+    -webkit-transform: rotateX(0deg) rotateZ(0deg);
+    -moz-transform: rotateX(0deg) rotateZ(0deg);
+    -o-transform: rotateX(0deg) rotateZ(0deg);
+    -ms-transform: rotateX(0deg) rotateZ(0deg);
+    transform: rotateX(0deg) rotateZ(0deg);
+    background-color: blue;
+    width: 100%;
+    padding: 10px;
+}
+
+.rotate {
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+
 .xe-widget.xe-counter,
 .xe-widget.xe-counter-block .xe-upper,
 .xe-widget.xe-progress-counter .xe-upper {

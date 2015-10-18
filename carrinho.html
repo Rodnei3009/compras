@@ -125,7 +125,9 @@
                             
                             <hr>
                             
-                            <div class="xe-widget xe-counter-block xe-counter-block-purple" data-count=".num" data-from="0" data-to="512" data-duration="3" ng-repeat="produto in produtos | filter:data.singleSelect">
+                            
+                            <div ng-repeat="produto in produtos | filter:data.singleSelect">
+                            <div class="xe-widget xe-counter-block xe-counter-block-purple frente rotate" data-count=".num" data-from="0" data-to="512" data-duration="3"  ng-class="{'frente': !boxClass, 'verso': boxClass}" ng-click="toggle()">
                                 <div class="xe-upper">
                                     
                                     <div>
@@ -149,51 +151,11 @@
                                     <strong>512 more photos</strong>
                                 </div>
                             </div>
+                            </div>    
                             
                             
                             
                             
-                            
-                            
-                            <!--
-                            <div class="col-sm-4">
-                                
-								
-								<div class="xe-widget xe-todo-list xe-todo-list-purple">
-                                    <div class="xe-header">
-                                        <div class="xe-icon">
-                                            <i class="fa-file-text-o"></i>
-                                        </div>
-                                        <div class="xe-label">
-                                            <span>Categoria</span>
-                                            <strong ng-cloak>{{ data.singleSelect }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="xe-body">
-                                        
-                                        <ul class="list-unstyled">
-                                            <li ng-repeat="produto in produtos | filter:data.singleSelect">
-                                                <label>
-                                                    
-                                                    <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.descricao, produto.categoria, produto.status)" class="cbr" />
-                                                    
-                                                    
-                                                    <span ng-cloak>{{produto.descricao}}</span>
-                                                    
-                                                </label>
-                                                <i class="fa fa-trash-o" ng-click="removeItem(produto.ID)"></i>
-                                            </li>    
-                                        </ul>
-                                        
-                                    </div>
-                                        <div class="xe-header">
-                                            <div>
-                                            </div>
-                                        </div>
-
-                                </div>
-                            </div>
-                            -->
                             
                             <hr>
                             
@@ -258,6 +220,11 @@
 					$scope.$apply();				
 				});
 				
+                $scope.toggle = function(prd) {
+                    alert(prd);
+                    $scope.boxClass = !$scope.boxClass;
+                };
+                
 				$scope.removeItem = function removeItem(prod) {
                     //alert(prod);
                     $scope.deleteitem = new Firebase("https://listadecompras.firebaseio.com/produtos/" + prod);
