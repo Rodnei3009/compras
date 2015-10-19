@@ -125,38 +125,53 @@
                             
                             <hr>
                             
-                            
                             <div ng-repeat="produto in produtos | filter:data.singleSelect">
-                            <div class="xe-widget xe-counter-block xe-counter-block-purple frente rotate" data-count=".num" data-from="0" data-to="512" data-duration="3"  ng-class="{'frente': !boxClass, 'verso': boxClass}" ng-click="toggle()">
-                                <div class="xe-upper">
-                                    
-                                    <div>
-                                        <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.descricao, produto.categoria, produto.status)" class="cbr" />     
-                                    </div>    
-                                    
-                                    <div class="xe-label">
-                                        <strong class="num">{{produto.descricao}}</strong>
-                                        <span>{{produto.categoria}}</span>
+                                
+                                <div class="animate-wrap">
+
+                                    <input type="radio" id={{produto.ID}}+a name={{produto.ID}} checked>
+                                    <input type="radio" id={{produto.ID}}+b name={{produto.ID}}>
+
+                                    <div class="animate">
+                                        <label for={{produto.ID}}+b class="front">
+                                            <div class="xe-widget xe-counter-block xe-counter-block-purple">
+                                                <div class="xe-upper">
+
+                                                    <div class="xe-label">
+                                                        <strong class="num">{{produto.descricao}}</strong>
+                                                        <span>{{produto.categoria}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="xe-lower">
+                                                    <div class="border"></div>
+                                                    <span>Increase</span>
+                                                    <strong>512 more photos</strong>
+                                                </div>
+                                            </div>
+                                        </label>
+
+                                        <label for={{produto.ID}}+a class="back">
+                                            <div class="xe-widget xe-counter-block xe-counter-block-purple">
+                                                <div class="xe-upper">
+                                                    <div class="xe-label">
+                                                        <strong class="num">0</strong>
+                                                        <span>Photos nhaca</span>
+                                                    </div>
+                                                </div>
+                                                <div class="xe-lower">
+                                                    <div class="border"></div>
+                                                    <span>Increase</span>
+                                                    <strong>233 more photos</strong>
+                                                </div>
+                                            </div>
+                                        </label>
+
                                     </div>
-                                    
-                                    <div>
-                                        <i class="fa-trash-o" ng-click="removeItem(produto.ID)"></i>
-                                    </div>    
-
-                                </div>
-                                <div class="xe-lower">
-                                    <div class="border"></div>
-
-                                    <span>Increase</span>
-                                    <strong>512 more photos</strong>
-                                </div>
-                            </div>
+							    </div>
+                                
+                                
                             </div>    
-                            
-                            
-                            
-                            
-                            
+
                             <hr>
                             
                             <div class="xe-header">
@@ -220,8 +235,7 @@
 					$scope.$apply();				
 				});
 				
-                $scope.toggle = function(prd) {
-                    alert(prd);
+                $scope.toggle = function() {
                     $scope.boxClass = !$scope.boxClass;
                 };
                 

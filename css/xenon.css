@@ -12962,11 +12962,79 @@ button.toast-close-button {
 }
 
 .rotate {
-    -webkit-transition: all 1s ease-in-out;
+    /*-webkit-transition: all 1s ease-in-out;
     -moz-transition: all 1s ease-in-out;
     -o-transition: all 1s ease-in-out;
-    transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;*/
+    
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+    
 }
+
+
+
+
+.animate-wrap {
+    position: relative;
+    width: 400px; height: 150px;
+    -webkit-perspective: 1000;
+    -moz-perspective: 1000;
+    perspective: 1000;
+}
+
+
+.animate-wrap input {
+    display: none;
+}
+.animate-wrap [type="radio"]:checked + .animate {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.animate {
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;
+}
+
+
+label {
+    position: absolute; top: 0; left: 0; z-index: 2;
+    width: 400px; height: 130px;
+    //background-color: black;			
+
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.back {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+.front {
+    z-index: 1;
+}
+
+
+
+
+
+
+
+
+
+/* fim rodnei */
 
 
 .xe-widget.xe-counter,
