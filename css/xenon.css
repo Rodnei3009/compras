@@ -12981,7 +12981,7 @@ button.toast-close-button {
 
 .animate-wrap {
     position: relative;
-    width: 400px; height: 150px;
+    height: 150px;
     -webkit-perspective: 1000;
     -moz-perspective: 1000;
     perspective: 1000;
@@ -13008,10 +13008,9 @@ button.toast-close-button {
 
 
 label {
-    position: absolute; top: 0; left: 0; z-index: 2;
-    width: 400px; height: 130px;
-    //background-color: black;			
-
+    position: absolute; top: 0; left: 0; 
+    height: 130px;
+    width: 100%;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     backface-visibility: hidden;
