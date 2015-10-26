@@ -51,7 +51,89 @@
         <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
             
             
+        <style>
+        
+            .preloader1 {
+               width:40px;
+               height:40px;
+               display:inline-block;
+               padding:0px;
+               text-align:left;
+               -webkit-animation:preloader1 1.4s linear infinite;
+               animation:preloader1 1.4s linear infinite;
+            }
+            .preloader1 span {
+               position:absolute;
+               vertical-align:top;
+               border-radius:100%;
+               background:#000000;
+               display:inline-block;
+               width:8px;
+               height:8px;
+               margin-left:16px;
+               transform-origin:center 20px;
+               -webkit-transform-origin:center 20px;
+            }
+            .preloader1 span:nth-child(2) {transform: rotate(36deg);-webkit-transform: rotate(36deg); opacity:0.1;}
+            .preloader1 span:nth-child(3) {transform: rotate(72deg);-webkit-transform: rotate(72deg); opacity:0.2;}
+            .preloader1 span:nth-child(4) {transform: rotate(108deg);-webkit-transform: rotate(108deg); opacity:0.3;}
+            .preloader1 span:nth-child(5) {transform: rotate(144deg);-webkit-transform: rotate(144deg); opacity:0.4;}
+            .preloader1 span:nth-child(6) {transform: rotate(180deg);-webkit-transform: rotate(180deg); opacity:0.5;}
+            .preloader1 span:nth-child(7) {transform: rotate(216deg);-webkit-transform: rotate(216deg); opacity:0.6;}
+            .preloader1 span:nth-child(8) {transform: rotate(252deg);-webkit-transform: rotate(252deg); opacity:0.7;}
+            .preloader1 span:nth-child(9) {transform: rotate(288deg);-webkit-transform: rotate(288deg); opacity:0.8;}
+            .preloader1 span:nth-child(10) {transform: rotate(324deg);-webkit-transform: rotate(324deg); opacity:0.9;}
+            @keyframes preloader1 {
+               from {transform: rotate(0deg);}
+               to {transform: rotate(360deg);}
+            }
+            @-webkit-keyframes preloader1 {
+               from {-webkit-transform: rotate(0deg);}
+               to {-webkit-transform: rotate(360deg);}
+            }
+        
             
+            input[type=checkbox].css-checkbox {
+                position: absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;
+            }
+
+            input[type=checkbox].css-checkbox + label.css-label {
+                padding-left:29px;
+                height:24px; 
+                display:inline-block;
+                line-height:24px;
+                background-repeat:no-repeat;
+                background-position: 0 0;
+                font-size:24px;
+                vertical-align:middle;
+                cursor:pointer;
+
+            }
+
+            input[type=checkbox].css-checkbox:checked + label.css-label {
+                background-position: 0 -24px;
+            }
+            label.css-label {
+            background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_03ee0a503184727e98aa0cf69eb88fac.png);
+            /*background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_c4dba3149f4d6a6839478ef04a89e2a8.png);*/
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            }
+            
+            .right {
+                
+                float: right;
+                padding: 15px;
+                
+                
+            }
+            
+            
+        </style>    
             
     </head>
     <body class="page-body">
@@ -98,7 +180,6 @@
         
             <div id="page-wrapper">
                 
-                
                 <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
                         
                     <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
@@ -125,50 +206,49 @@
                             
                             <hr>
                             
+                            <div ng-hide="carregou" class="preloader1">
+                               
+                                   <span></span>
+                                   <span></span>
+                                   <span></span>
+                                   <span></span>
+                                   <span></span>
+                                   <span></span>
+                                   <span></span>
+                                   <span></span>
+                                   <span></span>
+                                   <span></span>
+                            </div>
+                            
                             <div ng-repeat="produto in produtos | filter:data.singleSelect">
-                                
-                                <div class="animate-wrap">
+                                                                
 
-                                    <input type="radio" id={{produto.ID}}+a name={{produto.ID}} checked>
-                                    <input type="radio" id={{produto.ID}}+b name={{produto.ID}}>
+                                <div class="xe-widget xe-counter-block xe-counter-block-purple">
+                                    <div class="xe-upper">
+                                        <div class="xe-label">                                                                                                      
+                                            <strong class="num">{{produto.descricao}}</strong>
+                                            <span>{{produto.categoria}}</span>
+                                        </div>
+                                        <div class="right">
+                                            <!--
+                                            <input type="checkbox" name="checkboxG5" id="checkboxG5" class="css-checkbox" checked="checked"/>
+                                            <label for="checkboxG5" class="css-label"></label>
+                                            -->                        
 
-                                    <div class="animate">
-                                        <label for={{produto.ID}}+b class="front">
-                                            <div class="xe-widget xe-counter-block xe-counter-block-purple">
-                                                <div class="xe-upper">
-
-                                                    <div class="xe-label">
-                                                        <strong class="num">{{produto.descricao}}</strong>
-                                                        <span>{{produto.categoria}}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xe-lower">
-                                                    <div class="border"></div>
-                                                    <span>Increase</span>
-                                                    <strong>512 more photos</strong>
-                                                </div>
-                                            </div>
-                                        </label>
-
-                                        <label for={{produto.ID}}+a class="back">
-                                            <div class="xe-widget xe-counter-block xe-counter-block-purple">
-                                                <div class="xe-upper">
-                                                    <div class="xe-label">
-                                                        <strong class="num">0</strong>
-                                                        <span>Photos nhaca</span>
-                                                    </div>
-                                                </div>
-                                                <div class="xe-lower">
-                                                    <div class="border"></div>
-                                                    <span>Increase</span>
-                                                    <strong>233 more photos</strong>
-                                                </div>
-                                            </div>
-                                        </label>
+                                            <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.descricao, produto.categoria, produto.status)">
+                                        </div>
 
                                     </div>
-							    </div>
-                                
+                                    <div class="xe-lower">
+                                        <div class="border">
+                                            <!--
+                                            <div class="right">
+                                                <i class="fa fa-trash-o" ng-click="removeItem(produto.ID)"></i>
+                                            </div>
+                                            -->
+                                        </div>
+                                    </div>
+                                </div>
                                 
                             </div>    
 
@@ -225,16 +305,18 @@
 				$scope.categorias=[];
 				$scope.data = {};
                 $scope.statusItem;
-           	
-				myData = new Firebase("https://listadecompras.firebaseio.com/produtos");
-				myData.on('value', function(snapshot){
-					$scope.produtos = [];
+                $scope.carregou = false;
+                
+                myData = new Firebase("https://listadecompras.firebaseio.com/produtos");
+                myData.on('value', function(snapshot){
+                    $scope.produtos = [];
 					snapshot.forEach(function(childSnapshot) {
 						$scope.produtos.push({'ID': childSnapshot.key(), 'descricao': childSnapshot.child('descricao').val(), 'categoria': childSnapshot.child('categoria').val(), 'status': childSnapshot.child('status').val()});
 					});
-					$scope.$apply();				
+					$scope.carregou = true;
+                    $scope.$apply();                    
 				});
-				
+               
                 $scope.toggle = function() {
                     $scope.boxClass = !$scope.boxClass;
                 };

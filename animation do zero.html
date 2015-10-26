@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	
+	<title>Teste</title>
+
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/xenon-components.css">	
+	
+	<style>
+	   
+        .position {
+            width: 100%;
+            padding: 25px;
+        }
+        
+        .giraprala {
+            -webkit-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+            -moz-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+            -o-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+            -ms-transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+            transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+            background-color: lightgrey;
+        }
+        
+        .girapraca {
+            -webkit-transform: rotateX(0deg) rotateZ(0deg);
+            -moz-transform: rotateX(0deg) rotateZ(0deg);
+            -o-transform: rotateX(0deg) rotateZ(0deg);
+            -ms-transform: rotateX(0deg) rotateZ(0deg);
+            transform: rotateX(0deg) rotateZ(0deg);
+            background-color: blue;
+        }
+        
+            
+	</style>
+	
+	
+</head>
+    
+<body>
+	
+    <div class="container">
+        <div class="giraprala">
+            teste
+        </div>
+    </div>
+    
+    <input type="button" value="Mudar" id="bt">
+    
+	<script>
+        
+        angular.module('myApp', [])
+            .controller('MainCtrl', function($scope) {
+            $scope.boxClass = true;
+        });   
+        
+	</script>
+	
+</body>
+
+</html>	

@@ -9,7 +9,7 @@
         
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">    
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="Xenon Boostrap Admin Panel" />
         <meta name="author" content="" />
 
@@ -97,7 +97,8 @@
             </nav>
         
             <div id="page-wrapper">
-                
+                                            <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
+
                 
                 <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
                         
@@ -108,55 +109,105 @@
                     <div class="main-content">
                         
                         <h3 class="text-gray">
-                            Preparação da lista <br />
+                            <div class="xe-icon">
+                                <i class="fa-file-text-o"></i>
+                                Preparação da lista <br />
+                            </div>
+                            
                             <small class="text-muted">Selecione a categoria</small>
                         </h3>
                         
                         <!-- Xenon Todo List -->
                         <div class="row" ng-controller="minhalistaCTRL">
-							<div class="col-sm-4">
-                                <div>									
-									<select id="prodCategorias" class="form-control" placeholder="Search Categoria" ng-model="data.singleSelect" ng-options="categoria for categoria in categorias"></select>
-								</div>
-								<hr>
-								
-								<div class="xe-widget xe-todo-list xe-todo-list-purple">
-                                    <div class="xe-header">
-                                        <div class="xe-icon">
-                                            <i class="fa-file-text-o"></i>
-                                        </div>
-                                        <div class="xe-label">
-                                            <span>Categoria</span>
-                                            <strong ng-cloak>{{ data.singleSelect }}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="xe-body">
-                                        
-                                        <ul class="list-unstyled">
-                                            <li ng-repeat="produto in produtos | filter:data.singleSelect">
-                                                <label>
-                                                    
-                                                    <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.descricao, produto.categoria, produto.status)" class="cbr" />
-                                                    
-                                                    <!--<i class="fa fa-trash-o" ng-click="removeItem(produto.ID)"></i> -->
-                                                    <span ng-cloak>{{produto.descricao}}</span>
-
-                                                </label>
-                                            </li>    
-                                        </ul>
-                                        
-                                    </div>
-                                        <div class="xe-header">
-                                            <div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                
+							
+                            <div>									
+                                <select id="prodCategorias" class="form-control" placeholder="Search Categoria" ng-model="data.singleSelect" ng-options="categoria for categoria in categorias"></select>
                             </div>
                             
+                            <hr>
+                            
+                            <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
+                            
+                            <div ng-repeat="produto in produtos | filter:data.singleSelect">
+                                
+                                <input type="checkbox" ng-model="produto.status" ng-click="inserirLista(produto.ID, produto.descricao, produto.categoria, produto.status)" class="cbr" />     
+                                
+                                <div class="animate-wrap">
+                                    <input type="radio" id={{produto.ID}}+a name={{produto.ID}} checked>
+                                    <input type="radio" id={{produto.ID}}+b name={{produto.ID}}>
+
+                                    <div class="animate">
+                                        <label for={{produto.ID}}+b class="front">
+                                            <div class="xe-widget xe-counter-block xe-counter-block-purple">
+                                                <div class="xe-upper">
+                                                    <div class="xe-label">                                                        
+                                                        <strong class="num">{{produto.descricao}}</strong>
+                                                        <span>{{produto.categoria}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="xe-lower">
+                                                    <div class="border"></div>
+                                                    <span>Increase</span>
+                                                    <strong>512 more photos</strong>
+                                                    <i class="fa fa-trash-o" ng-click="removeItem(produto.ID)"></i>
+                                                </div>
+                                            </div>
+                                        </label>
+
+                                        <label for={{produto.ID}}+a class="back">
+                                            <div class="xe-widget xe-counter-block xe-counter-block-purple">
+                                                <div class="xe-upper">
+                                                    <div class="xe-label">
+                                                        <strong class="num">0</strong>
+                                                        <span>Photos nhaca</span>
+                                                    </div>
+                                                </div>
+                                                <div class="xe-lower">
+                                                    <div class="border"></div>
+                                                    <span>Increase</span>
+                                                    <strong>233 more photos</strong>
+                                                </div>
+                                            </div>
+                                        </label>
+
+                                    </div>
+							    </div>
+                                
+                                
+                            </div>    
+
+                            <hr>
+                            
+                            <div class="xe-header">
+                                <div>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <input type="text" ng-model="data.novoProduto" class="form-control no-right-border form-focus-purple">
+
+                                <span class="input-group-btn">
+                                    <button class="btn btn-purple" type="button" ng-click="saveProdutos(txtIncluir, data.singleSelect)">Incluir</button>
+                                </span>
+                            </div>
+
+                            <br>
+
+                            <div>
+                                <form role="form">						
+                                    <div class="bs-example" ng-show="myValue">
+
+                                            <div class="alert alert-warning">
+                                                <strong>Alerta!</strong> Preencha o nome do produto...
+                                            </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                            
+                                
                         </div>
+                </div>
                         
                         <!-- Main Footer -->
                         <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" -->
@@ -188,8 +239,35 @@
 					$scope.$apply();				
 				});
 				
-				$scope.inserirLista = function(prodID, prodDesc, prodCateg, statusItem) {                    
-                    //alert(prodID + prodDesc + prodCateg + statusItem);
+                $scope.toggle = function() {
+                    $scope.boxClass = !$scope.boxClass;
+                };
+                
+				$scope.removeItem = function removeItem(prod) {
+                    //alert(prod);
+                    $scope.deleteitem = new Firebase("https://listadecompras.firebaseio.com/produtos/" + prod);
+                    $scope.deleteitem.remove();
+                    $scope.$apply();
+                    $scope.myValue=false;
+                };
+                
+                $scope.saveProdutos = function(desc, categ){
+                    //alert($scope.data.novoProduto + " - " + $scope.data.singleSelect);
+                    
+                    if ($scope.data.novoProduto == "") {
+                        //alert('sim');
+                        $scope.myValue=true;
+                        return false;
+                    } else {
+                        //alert('nao');
+                        myData.push({descricao:$scope.data.novoProduto, categoria:$scope.data.singleSelect});
+                        $scope.data.novoProduto = "";
+                        $scope.myValue=false;
+                    }
+                };
+                
+                $scope.inserirLista = function(prodID, prodDesc, prodCateg, statusItem) {                    
+                    alert(prodID + prodDesc + prodCateg + statusItem);
                     $scope.myData = new Firebase("https://listadecompras.firebaseio.com/produtos/" + prodID);
                     $scope.myData.child('status').set(statusItem);
                 };
